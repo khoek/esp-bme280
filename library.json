@@ -1,6 +1,6 @@
 {
     "name": "esp-bme280",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "A library built on esp-idf for reading BME280 temperature, humidity, and pressure sensors.",
     "keywords": "temp, temperature, humidity, press, pressure, sensor, i2c, hardware, esp-idf, esp32, esp8266",
     "repository": {
@@ -19,6 +19,7 @@
     "frameworks": "espidf",
     "platforms": "espressif32",
     "dependencies": {
+        "khoek/libesp": "^2.2.0",
         "khoek/libi2c": "^2.0.0"
     }
 }

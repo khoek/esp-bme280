@@ -1,5 +1,4 @@
-#ifndef __LIB_BME280_H
-#define __LIB_BME280_H
+#pragma once
 
 #include <driver/i2c.h>
 #include <libi2c.h>
@@ -82,26 +81,33 @@ typedef struct bme280 bme280_t;
 typedef bme280_t* bme280_handle_t;
 
 // Register the BME280 on the given I2C bus.
-esp_err_t bme280_init(i2c_port_t port, uint8_t addr, bme280_handle_t* out_dev);
+__result_use_check esp_err_t bme280_init(i2c_port_t port, uint8_t addr,
+                                         bme280_handle_t* out_dev);
 
 // Release the given handle.
 void bme280_destroy(bme280_handle_t dev);
 
 // Reset the device and read/set calibration data from internal memory.
-void bme280_reset(bme280_handle_t dev);
+__result_use_check esp_err_t bme280_reset(bme280_handle_t dev);
 
 // Read a register over I2C.
-uint8_t bme280_reg_read(bme280_handle_t dev, bme280_reg_t reg);
+__result_use_check esp_err_t bme280_reg_read(bme280_handle_t dev,
+                                             bme280_reg_t reg, uint8_t* val);
 
 // Write a register over I2C.
-void bme280_reg_write(bme280_handle_t dev, bme280_reg_t reg, uint8_t val);
+__result_use_check esp_err_t bme280_reg_write(bme280_handle_t dev,
+                                              bme280_reg_t reg, uint8_t val);
 
-// Read back the last sample results "atomically", guarenteeing that none of the read registers
-// could have been partially modified while the read was ongoing.
-void bme280_read_sample_regs(bme280_handle_t dev, uint32_t* raw_press, uint32_t* raw_temp, uint16_t* raw_hum);
+// Read back the last sample results "atomically", guarenteeing that none of the
+// read registers could have been partially modified while the read was ongoing.
+__result_use_check esp_err_t bme280_read_sample_regs(bme280_handle_t dev,
+                                                     uint32_t* raw_press,
+                                                     uint32_t* raw_temp,
+                                                     uint16_t* raw_hum);
 
-void bme280_calc_compensated_temp(bme280_handle_t dev, uint32_t raw_temp, double* temp_c, double* t_param);
-void bme280_calc_compensated_press(bme280_handle_t dev, uint32_t raw_press, double t_param, double* press_pa);
-void bme280_calc_compensated_hum(bme280_handle_t dev, uint32_t raw_hum, double t_param, double* rel_humidity);
-
-#endif
+void bme280_calc_compensated_temp(bme280_handle_t dev, uint32_t raw_temp,
+                                  double* temp_c, double* t_param);
+void bme280_calc_compensated_press(bme280_handle_t dev, uint32_t raw_press,
+                                   double t_param, double* press_pa);
+void bme280_calc_compensated_hum(bme280_handle_t dev, uint32_t raw_hum,
+                                 double t_param, double* rel_humidity);

@@ -1,5 +1,4 @@
-#ifndef __LIB__BME280_PRIVATE_H
-#define __LIB__BME280_PRIVATE_H
+#pragma once
 
 #include <libi2c.h>
 
@@ -33,5 +32,3 @@ struct bme280 {
 
     bme280_coeffs_t coeffs;
 };
-
-#endif
